@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
 const contractAddress = "0x4A5B33c5aFe427a15A13F35B89747d7669aE54eD";
@@ -15,14 +15,14 @@ const abi = [
 function App() {
 
   const [account, setAccount] = useState("");
-
   const [contract, setContract] = useState(null);
 
-  const [amount, setAmount] = useState("");
-
   const [collateral, setCollateral] = useState("0");
-
   const [debt, setDebt] = useState("0");
+
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [borrowAmount, setBorrowAmount] = useState("");
+  const [repayAmount, setRepayAmount] = useState("");
 
   async function connectWallet() {
 
@@ -39,67 +39,69 @@ function App() {
     setContract(lending);
 
     loadData(lending, address);
-
   }
 
   async function loadData(lending, address) {
 
     const col = await lending.collateralETH(address);
 
-    const deb = await lending.debtUSD(address);
+    const debt = await lending.debtUSD(address);
 
     setCollateral(ethers.formatEther(col));
 
-    setDebt(deb.toString());
-
+    setDebt(debt.toString());
   }
 
   async function deposit() {
 
     const tx = await contract.deposit({
 
-      value: ethers.parseEther(amount)
+      value: ethers.parseEther("0.01")
 
     });
 
     await tx.wait();
 
-    alert("Deposit success");
+    alert("Deposit successful");
 
+    loadData(contract, account);
   }
 
   async function withdraw() {
 
     const tx = await contract.withdraw(
 
-      ethers.parseEther(amount)
+      ethers.parseEther(withdrawAmount)
 
     );
 
     await tx.wait();
 
-    alert("Withdraw success");
+    alert("Withdraw successful");
 
+    loadData(contract, account);
   }
 
   async function borrow() {
 
-    const tx = await contract.borrow(amount);
+    const tx = await contract.borrow(borrowAmount);
 
     await tx.wait();
 
-    alert("Borrow success");
+    alert("Borrow successful");
 
+    loadData(contract, account);
   }
 
   async function repay() {
 
-    const tx = await contract.repay(amount);
+    const tx = await contract.repay(repayAmount);
 
     await tx.wait();
 
-    alert("Repay success");
+    alert("Repay successful");
 
+    loadData(contract, account);
   }
 
   return (
@@ -109,39 +111,66 @@ function App() {
       <h2>My DeFi Lending App</h2>
 
       <button onClick={connectWallet}>
-
         Connect Wallet
-
       </button>
 
-      <p>{account}</p>
+      <p>Account: {account}</p>
+
+      <hr />
+
+      <h3>Your Position</h3>
 
       <p>Collateral: {collateral} ETH</p>
 
       <p>Debt: {debt} USD</p>
 
+      <hr />
+
+      <button onClick={deposit}>
+        Deposit 0.01 ETH
+      </button>
+
+      <hr />
+
+      <h3>Withdraw</h3>
+
       <input
-
-        placeholder="Enter amount"
-
-        onChange={(e) => setAmount(e.target.value)}
-
+        placeholder="ETH amount"
+        onChange={(e) => setWithdrawAmount(e.target.value)}
       />
 
-      <br /><br />
+      <button onClick={withdraw}>
+        Withdraw
+      </button>
 
-      <button onClick={deposit}>Deposit</button>
+      <hr />
 
-      <button onClick={withdraw}>Withdraw</button>
+      <h3>Borrow</h3>
 
-      <button onClick={borrow}>Borrow</button>
+      <input
+        placeholder="USD amount"
+        onChange={(e) => setBorrowAmount(e.target.value)}
+      />
 
-      <button onClick={repay}>Repay</button>
+      <button onClick={borrow}>
+        Borrow
+      </button>
+
+      <hr />
+
+      <h3>Repay</h3>
+
+      <input
+        placeholder="USD amount"
+        onChange={(e) => setRepayAmount(e.target.value)}
+      />
+
+      <button onClick={repay}>
+        Repay
+      </button>
 
     </div>
-
   );
-
 }
 
 export default App;
