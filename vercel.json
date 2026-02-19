@@ -1,0 +1,8 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "env": {
+    "REACT_APP_CONTRACT_ADDRESS": "@react_app_contract_address",
+    "REACT_APP_CHAIN_ID": "@react_app_chain_id"
+  }
+}
