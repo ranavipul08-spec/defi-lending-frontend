@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
 const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS || "0xBc935Be53A6125Eee44C882840d1036a7E0bEeC2";
-const SEPOLIA_CHAIN_ID = 11155111;
 
 const abi = [
   "function deposit() payable",
@@ -21,7 +20,6 @@ function App() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Data states
   const [collateral, setCollateral] = useState("0");
   const [debt, setDebt] = useState("0");
   const [ethPrice, setEthPrice] = useState("0");
@@ -29,7 +27,6 @@ function App() {
   const [healthFactor, setHealthFactor] = useState("0");
   const [maxBorrow, setMaxBorrow] = useState("0");
 
-  // Input states
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [borrowAmount, setBorrowAmount] = useState("");
   const [repayAmount, setRepayAmount] = useState("");
@@ -40,32 +37,34 @@ function App() {
     }
   }, [contract, account]);
 
-  async function connectWallet() {
+  const connectWallet = async () => {
     try {
       setError("");
       setLoading(true);
 
-      // ✅ CRITICAL: Check if window and ethereum exist
       if (typeof window === 'undefined' || !window.ethereum) {
         setError("MetaMask is not installed. Please install MetaMask to continue.");
         setLoading(false);
         return;
       }
 
-      // ✅ Get provider and check network
       const provider = new ethers.BrowserProvider(window.ethereum);
-      const network = await provider.getNetwork();
-
-      if (network.chainId !== SEPOLIA_CHAIN_ID) {
-        setError(`Wrong network! Please switch to Sepolia. Current chain ID: ${network.chainId}`);
-        setLoading(false);
-        return;
-      }
-
-      // ✅ Connect wallet and set up contract
       const signer = await provider.getSigner();
-      const lending = new ethers.Contract(contractAddress, abi, signer);
       const address = await signer.getAddress();
+
+      const network = await provider.getNetwork();
+      console.log("Network chainId:", network.chainId);
+
+	// Convert to number to avoid type mismatch
+	const currentChainId = Number(network.chainId);
+	console.log("Current chain ID (number):", currentChainId);
+
+	if (currentChainId !== 11155111) {
+  	setError(`Wrong network! You are on chain ${currentChainId}. Please switch to 	Sepolia (11155111).`);
+  	setLoading(false);
+  	return;
+  	}
+      const lending = new ethers.Contract(contractAddress, abi, signer);
 
       setAccount(address);
       setContract(lending);
@@ -78,9 +77,9 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function loadData(lending, address) {
+  const loadData = async (lending, address) => {
     try {
       const col = await lending.collateralETH(address);
       const debtValue = await lending.debtUSD(address);
@@ -108,9 +107,9 @@ function App() {
       console.error("Data loading error:", err);
       setError(`Failed to load data: ${err.message}`);
     }
-  }
+  };
 
-  async function deposit() {
+  const deposit = async () => {
     try {
       if (!contract) {
         setError("Please connect wallet first");
@@ -126,9 +125,9 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function withdraw() {
+  const withdraw = async () => {
     try {
       if (!contract) {
         setError("Please connect wallet first");
@@ -149,9 +148,9 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function borrow() {
+  const borrow = async () => {
     try {
       if (!contract) {
         setError("Please connect wallet first");
@@ -172,9 +171,9 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
-  async function repay() {
+  const repay = async () => {
     try {
       if (!contract) {
         setError("Please connect wallet first");
@@ -195,13 +194,12 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial, sans-serif", maxWidth: "600px", margin: "0 auto" }}>
       <h2>💰 DeFi Lending App</h2>
 
-      {/* Error Display */}
       {error && (
         <div style={{ 
           color: "red", 
