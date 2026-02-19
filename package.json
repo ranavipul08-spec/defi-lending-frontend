@@ -2,6 +2,14 @@
   "name": "lending-frontend",
   "version": "0.1.0",
   "private": true,
+   "scripts": {
+
+    "start": "react-scripts start",
+
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build"
+
+    }
+
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
