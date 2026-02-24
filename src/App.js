@@ -261,7 +261,7 @@ function App() {
 
     <div style={{ padding: 20 }}>
 
-      <h2>DeFi Lending App</h2>
+      <h2>DeFi Lending App NEW VERSION</h2>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
