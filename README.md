@@ -1,70 +1,151 @@
-# Getting Started with Create React App
+# DeFi Lending Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A frontend interface for interacting with a **DeFi Lending Protocol** built using **React.js and Ethers.js**.
+This application allows users to connect their wallet and interact with smart contracts deployed on the Ethereum blockchain.
 
-## Available Scripts
+The frontend communicates with the lending smart contracts to enable users to:
 
-In the project directory, you can run:
+* Deposit liquidity into the lending pool
+* Borrow tokens using collateral
+* Withdraw supplied assets
+* Repay borrowed loans
+* Monitor the **health factor** of their position
+* Retrieve asset prices using **Chainlink price feeds**
 
-### `npm start`
+This interface provides a simple UI for interacting with decentralized lending protocols similar to those used in modern DeFi platforms.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+* Connect wallet using MetaMask
+* Deposit tokens into the lending pool
+* Borrow tokens against collateral
+* Withdraw deposited assets
+* Repay borrowed loans
+* Health factor monitoring for risk management
+* Integration with **Chainlink price feeds** for accurate asset pricing
+* Smart contract interaction using **Ethers.js**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Frontend**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* React.js
+* JavaScript
+* HTML / CSS
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Blockchain Interaction**
 
-### `npm run eject`
+* Ethers.js
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Oracles**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Chainlink Price Feeds
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Smart Contracts**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+* Solidity
+* Hardhat
+* OpenZeppelin
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Project Structure
 
-### Code Splitting
+```id="n6cr1b"
+lending-frontend
+│
+├── public
+├── src
+│   ├── components
+│   ├── utils
+│   └── App.js
+│
+├── .env
+├── package.json
+├── vercel.json
+└── README.md
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Clone the repository
 
-### Making a Progressive Web App
+```id="m8h9np"
+git clone https://github.com/ranavipul08-spec/Lending-Frontend.git
+cd Lending-Frontend
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Install dependencies
 
-### Advanced Configuration
+```id="y61k3s"
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## Run Locally
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Start the development server
 
-### `npm run build` fails to minify
+```id="3bf49e"
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The application will run at:
+
+```
+http://localhost:3000
+```
+
+---
+
+## Smart Contract Integration
+
+The frontend interacts with the deployed lending contracts using **Ethers.js**.
+
+Contract addresses are configured in the `.env` file.
+
+Example:
+
+```
+REACT_APP_CONTRACT_ADDRESS=0x...
+```
+
+---
+
+## Deployment
+
+This project can be deployed using **Vercel**.
+
+```id="moa5rq"
+npm run build
+```
+
+Then deploy using the Vercel CLI or GitHub integration.
+
+---
+
+## Learning Goals
+
+This project demonstrates:
+
+* Web3 frontend development
+* Smart contract interaction with Ethers.js
+* Wallet connection and transaction handling
+* DeFi protocol UI integration
+* Full-stack blockchain development
+
+
+
+---
+
+## License
+
+MIT
